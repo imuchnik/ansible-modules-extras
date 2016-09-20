@@ -567,7 +567,7 @@ class JenkinsPlugin(object):
             updates_file = tempfile.mkstemp()
 
             try:
-                fd = open(updates_file, 'wb')
+                fd = open(updates_file[1], 'wb')
             except IOError:
                 e = get_exception()
                 self.module.fail_json(
@@ -644,7 +644,7 @@ class JenkinsPlugin(object):
         tmp_f = tempfile.mkstemp()
 
         try:
-            fd = open(tmp_f, 'wb')
+            fd = open(tmp_f[1], 'wb')
         except IOError:
             e = get_exception()
             self.module.fail_json(
