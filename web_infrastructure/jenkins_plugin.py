@@ -642,7 +642,8 @@ class JenkinsPlugin(object):
 
     def _write_file(self, f, data):
         # Store the plugin into a temp file and then move it
-        tmp_f = tempfile.mkstemp()
+        tmp_f_tuple = tempfile.mkstemp()
+        tmp_f = tmp_f_tuple[1]
 
         try:
             fd = open(tmp_f, 'wb')
