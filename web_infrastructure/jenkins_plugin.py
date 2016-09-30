@@ -564,7 +564,8 @@ class JenkinsPlugin(object):
                 msg_exception="Updates download failed.")
 
             # Write the updates file
-            updates_file = tempfile.mkstemp()
+            updates_file_tuple = tempfile.mkstemp()
+            updates_file = updates_file_tuple[1]
 
             try:
                 fd = open(updates_file, 'wb')
