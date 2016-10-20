@@ -408,10 +408,17 @@ class JenkinsPlugin(object):
 
     def install(self):
         changed = False
+
         plugin_file = (
             '%s/plugins/%s.jpi' % (
                 self.params['jenkins_home'],
                 self.params['name']))
+
+        hpi_file = '%s/plugins/%s.hpi' % (
+            self.params['jenkins_home'],
+            self.params['name'])
+        if os.path.isfile(hpi_file):
+            os.rename(hpi_file, hpi_file+'.bak')
 
         if not self.is_installed and self.params['version'] is None:
             if not self.module.check_mode:
