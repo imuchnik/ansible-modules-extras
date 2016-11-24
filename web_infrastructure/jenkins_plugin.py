@@ -408,10 +408,17 @@ class JenkinsPlugin(object):
 
     def install(self):
         changed = False
+
         plugin_file = (
             '%s/plugins/%s.jpi' % (
                 self.params['jenkins_home'],
                 self.params['name']))
+
+        hpi_file = '%s/plugins/%s.hpi' % (
+            self.params['jenkins_home'],
+            self.params['name'])
+        if os.path.isfile(hpi_file):
+            os.rename(hpi_file, hpi_file+'.bak')
 
         if not self.is_installed and self.params['version'] is None:
             if not self.module.check_mode:
@@ -564,7 +571,8 @@ class JenkinsPlugin(object):
                 msg_exception="Updates download failed.")
 
             # Write the updates file
-            updates_file = tempfile.mkstemp()
+            updates_file_tuple = tempfile.mkstemp()
+            updates_file = updates_file_tuple[1]
 
             try:
                 fd = open(updates_file[1], 'wb')
@@ -641,7 +649,8 @@ class JenkinsPlugin(object):
 
     def _write_file(self, f, data):
         # Store the plugin into a temp file and then move it
-        tmp_f = tempfile.mkstemp()
+        tmp_f_tuple = tempfile.mkstemp()
+        tmp_f = tmp_f_tuple[1]
 
         try:
             fd = open(tmp_f, 'wb')
